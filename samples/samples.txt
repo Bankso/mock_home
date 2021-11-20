@@ -1,0 +1,2 @@
+sample_name	file_1	file_2	control_name	control_file_1	control_file_2
+Sample	path/to/sample_fastq_1	path/to/sample_fastq_2	Control	path/to/control_fastq_1	path/to/control_fastq_2
