@@ -10,12 +10,12 @@ library('stringr')
 # For fastq to bams, set bams to TRUE
 # For bams to bws, set bws to TRUE
 # For bams to bgs to peaks, set peaks to TRUE
-# For an analysis of low signal regions within identified peaks, set protection to TRUE
+# For an analysis of low signal regions within identified peaks, set pro to TRUE
 
 bams <- TRUE
 bws <- TRUE
 peaks <- TRUE
-protection <- TRUE
+pro <- TRUE
 
 # Pull input variables from Singularity
 env_vars <- Sys.getenv(c("sample_dir", "samples_file"), names=TRUE)
@@ -102,7 +102,7 @@ if (!is.na(SCAR_obj@sample_sheet[['control_bams']]) && peaks) {
 	
 
 
-if (protection) {
+if (pro) {
 SCAR_obj <- pf_analysis(
 	SCAR_obj,
 	outdir=str_c(sample_dir,'peaks/'),
