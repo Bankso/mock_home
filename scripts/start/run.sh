@@ -8,7 +8,7 @@
 #SBATCH --ntasks-per-node=1         		### Number of tasks to be launched per Node
 #SBATCH --cpus-per-task=8	    		### Number of CPU's used to complete submitted tasks within each requested node
 #SBATCH --mem=12GB		    		### Amount of preallocated memory for submitted job
-#SBATCH --account=your_account_name       		### Account used for job submission
+#SBATCH --account=mcknightlab       		### Account used for job submission
 
 ## Be sure to edit the above to fit your HPC job submisssion framework
 ## For example directory structure, see the README at https://github.com/Bankso/SCAR
@@ -49,9 +49,9 @@ singularity cache clean -f
 
 if [ -e ./scar* ]; then
 	rm scar*
-	singularity pull --arch amd64 library://banksorion/default/scar_software:latest_v1.*
+	singularity pull --arch amd64 library://banksorion/default/scar_software:latest_1.4
 else
-	singularity pull --arch amd64 library://banksorion/default/scar_software:latest_v1.*
+	singularity pull --arch amd64 library://banksorion/default/scar_software:latest_1.4
 fi
 
 # Start singularity-based processing run 
