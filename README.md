@@ -1,37 +1,40 @@
 # Mock Home
-## A repository for the file framework used in data processing via SCAR (SpLiT-ChEC Analysis with R)  
-See the README in *'Bankso/SCAR'* for more information.  
-Not intended to be used independently of SCAR processing.
+## A repository for a directory framework that fits the SCAR (SpLiT-ChEC Analysis with R) bioinformatics pipeline
+See the READMEs in [*SCAR*](https://github.com/Bankso/SCAR) and [*SEAPE*](https://github.com/Bankso/SEAPE) for more information.
 
-### How to use
+### How to prepare *mock_home*
 After downloading, place *mock_home/* in your home directory (or somewhere you have permissions).
 
-Input file setup:  
-1) place your sample fastqs into *home_dir/samples/*  
-2) place your control fastqs into *home_dir/controls/*   
-3) edit *home_dir/samples/samples.txt* to fit your sample, control, and fastq names 
-  
-Start script setup:  
-1) Open *mock_home/scripts/start/q_run.sh* in a text editor  
-2) Change the batch submission script to fit your submission architecture/details  
-3) Save the start script to *mock_home/scripts/start/* - if the name was changed, use that as the *run_script* name below 
-  
-Start processing run:  
-command format: *sbatch* *run script* *options script* *run_name*  
-1) Navigate to the folder *mock_home/*
-2) From the command line, start with the batch submission call for your HPC (*i.e.*, *sbatch*) 
-2) paste the following after the batch call (edit to fit your details): *scripts/start/q_run.sh scripts/process/options_#.R new_run_1*  
-	 
-Example command: *sbatch scripts/start/q_run.sh scripts/process/options_200.R Abf1_SC_5s*  
+Loading in raw sequencing reads:  
+1) place your sample FASTQ(s) into *home_dir/samples/*  
+2) place your control FASTQ(s) into *home_dir/controls/*   
+3) edit *home_dir/samples/samples.txt* to fit your sample and control names for processing, as well as file paths for single or paired-end reads for each sample (compressed or uncompressed)
 
-Files will be output to *mock_home/samples/outdir* for each function - output files will have names corresponding to sample and control names in *samples.txt*  
+Verifying start script and settings:  
+5) Open *mock_home/scripts/start/run.sh* in a text editor  
+6) Change the batch submission script to fit your submission architecture/details  
+7) Save the start script to *mock_home/scripts/start/* - if the name was changed, use that as the *$path/to/run* below
+8) Modify any settings you want to change in options.R and save
+  
+### Starting a processing run
+command format:
+```
+sbatch $path/to/run $path/to/options $out_name $fragment_range $path/to/BED/regions
+```
+Example command:
+```
+sbatch scripts/start/q_run.sh scripts/process/options.R Abf1_FLAG all BED_files/plot_regions.bed
+```
+1) Navigate to the folder *mock_home/*
+2) From the command line, enter the batch submission call for your HPC with the desired input parameters to initiate processing
+3) Genome database files and a Singularity image file will be downloaded to the mock_home directory before processing begins
+4) Files will be output to *mock_home/samples/outdir* for each function - output files will have names roots corresponding to sample or control names in *samples.txt*, as well as multiple identifiers that simplify directory organization and identification of settings associated with outputs. (Detailed list of identifiers in progress)
 
 ### Output files and directory structure
 
 **All files can be found in *mock_home/samples/***  
-*fastqc/* - fastq quality reports from FASTQC  
+*fastqc_reports/* - fastq quality reports from FASTQC in HTML format, easily viewable in a standard browser.  
 *aligned/* - SAM, BAM, BAM indexes from bowtie2 and samtools  
-*coverage/* - bigWig or bedgraph coverage files from deepTools  
-*bedgraphs/* - bedgraph coverage files from bedTools - used as input for peak finding  
-*peaks/* - peak bed and overlap bed region files from SEACR and low signal finder  
+*coverage/* - bigWig or bedgraph coverage files from deepTools   
+*peaks/* - peak finding outputs from MACS3  
 *plots/* - plots, matrices, heatmaps, and sorted region files from plotting functions  
