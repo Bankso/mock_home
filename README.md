@@ -1,29 +1,31 @@
 # Mock Home
-## A repository for a directory framework that fits the SCAR (SpLiT-ChEC Analysis with R) bioinformatics pipeline
-See the READMEs in [*SCAR*](https://github.com/Bankso/SCAR) and [*SEAPE*](https://github.com/Bankso/SEAPE) for more information.
+### A repository for a directory framework that fits the SCAR (SpLiT-ChEC Analysis with R) bioinformatics pipeline
+See the READMEs in [SCAR](https://github.com/Bankso/SCAR) and [SEAPE](https://github.com/Bankso/SEAPE) for more information.
 
-### How to prepare *mock_home*
+#### How to prepare *mock_home*
 After downloading, place *mock_home/* in your home directory (or somewhere you have permissions).
 
 Loading in raw sequencing reads:  
-1) place your sample FASTQ(s) into *home_dir/samples/*  
-2) place your control FASTQ(s) into *home_dir/controls/*   
-3) edit *home_dir/samples/samples.txt* to fit your sample and control names for processing, as well as file paths for single or paired-end reads for each sample (compressed or uncompressed)
+1) Place your sample FASTQ(s) into *home_dir/samples/*  
+2) Place your control FASTQ(s) into *home_dir/controls/*   
+3) Edit *home_dir/samples/samples.txt* to fit your sample and control names for processing, as well as file paths for single or paired-end reads for each sample (compressed or uncompressed)
 
-Verifying start script and settings:  
-5) Open *mock_home/scripts/start/run.sh* in a text editor  
-6) Change the batch submission script to fit your submission architecture/details  
-7) Save the start script to *mock_home/scripts/start/* - if the name was changed, use that as the *$path/to/run* below
-8) Modify any settings you want to change in options.R and save
+Verifying start script and settings:
+1) Open *mock_home/scripts/start/run.sh* in a text editor  
+2) Change the batch submission script to fit your submission architecture/details  
+3) Save the start script to *mock_home/scripts/start/* - if the name was changed, use that as the *$path/to/run* below
+4) Modify any settings you want to change in options.R and save
   
 ### Starting a processing run
-command format:
+To initiate a run from the command line, use the following call format:
 ```
-sbatch $path/to/run $path/to/options $out_name $fragment_range $path/to/BED/regions
+sbatch $path/to/run.sh $path_to_new_home $path/to/options.R $name_for_output $path_to_sample_files $path_to_BED_file $fragment_range
 ```
+Where $fragment_range can be one of four settings, each of which signals a different range of values indicating fragment sizes to be processed during alignment to a reference genome: all, full, small, and large. Default ranges are 0-500bp, 0-200bp, 0-120bp, and 140-180bp, respectively. This input is used in conjunction with a set of output type identifiers (noted below) to create identifiable directories from variably processed data, simplifying downstream analysis and process optimization.
+
 Example command:
 ```
-sbatch scripts/start/q_run.sh scripts/process/options.R Abf1_FLAG all BED_files/plot_regions.bed
+sbatch scripts/start/run.sh scripts/process/options.R ChIP_FLAG Abf1/rep1 BED_files/plot_regions.bed full
 ```
 1) Navigate to the folder *mock_home/*
 2) From the command line, enter the batch submission call for your HPC with the desired input parameters to initiate processing
