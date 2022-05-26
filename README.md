@@ -25,11 +25,11 @@ Where $fragment_range can be one of four settings, each of which signals a diffe
 
 Example command:
 ```
-sbatch scripts/start/run.sh scripts/process/options.R ChIP_FLAG Abf1/rep1 BED_files/plot_regions.bed full
+sbatch scripts/start/run.sh $PWD scripts/process/options.R ChIP_FLAG Abf1/rep1 BED_files/plot_regions.bed full
 ```
-1) Navigate to the folder *mock_home/*
-2) From the command line, enter the batch submission call for your HPC with the desired input parameters to initiate processing
-3) Genome database files and a Singularity image file will be downloaded to the mock_home directory before processing begins
+1) Navigate to the *mock_home/* root directory, which will be mounted by Singularity as a home directory 
+2) From the command line, enter the batch submission call for your HPC using the desired input parameters
+3) Genome assembly files (which can be specified in run.sh) and a Singularity image file will be downloaded to the mock_home directory before processing begins
 4) Files will be output to *mock_home/samples/outdir* for each function - output files will have names roots corresponding to sample or control names in *samples.txt*, as well as multiple identifiers that simplify directory organization and identification of settings associated with outputs. (Detailed list of identifiers in progress)
 
 ### Output files and directory structure
